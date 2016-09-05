@@ -1,0 +1,58 @@
+﻿<div ng-controller="OrderController">
+    
+    <!--<div class="showcase sweet" style="padding-left:800px;">
+        <label>{{message}}</label><br />
+        <button>Show error message</button>
+    </div>-->
+
+    <div style="padding-left:100px;">
+        <br />
+        <input type="button" ng-click="addTaskView()" value="Add New Order" />
+        <input type="button" ng-click="addTaskView()" value="Check Payment Dues" />
+    </div>
+
+    <div style="padding-left: 800px;">
+        <form name="TaskCreatedBy">
+            <input type="text" name="User" placeholder="Customer Name" ng-model="TaskCreator" required /><!--<label>{{TaskCreator}}</label>-->
+            <br /><input type="submit" value="Search" ng-click="search(TaskCreator)" style="margin-left:50px;" />
+
+        </form>
+    </div>
+    <div class="myGrid" ui-grid="gridOptions" ui-grid-edit>
+        <!--<div class="ui-grid-cell-contents">
+            <button type="button"
+                    class="btn btn-xs btn-primary"
+                    ng-click="grid.appScope.vm.editTask(grid, row)">
+                <i class="fa fa-edit"></i>
+            </button>
+        </div>-->
+    </div>  
+
+    <!--<div>
+        <br />
+        <table border="1">
+            <tr>{{error}}</tr>
+            <tr>
+                <th>Order Id</th>
+                <th>Customer Name</th>
+                <th>Rent Amount</th>
+                <th>Security Deposit</th>
+                <th>Order Date</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+            </tr>
+            <tr ng-repeat="order in Orders">
+                <td>{{order.OrderId}}</td>
+                <td>{{order.Name}}</td>
+                <td>{{order.RentAmt}}</td>
+                <td>{{order.SecurityDeposit}}</td>
+                <td>{{order.OrderDate | date:"dd/MM/yyyy"}}</td>
+                <td>{{order.ContactNo}}</td>
+                <td>{{order.Address}}</td>
+                <td><button type="submit" ng-click="editTask(order)">Edit</button></td>
+                <td style="padding-left:0px;"><button type="button" ng-click="#">View</button></td>
+                <td><button type="button" ng-click="deleteTask(Task)" confirm="Are you sure, {{name}}?">Delete</button></td>
+            </tr>
+        </table>
+    </div>-->
+</div>

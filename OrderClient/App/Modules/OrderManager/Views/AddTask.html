@@ -1,0 +1,133 @@
+﻿
+
+    <div style="margin-top:0px;" ng-app="OrderManager">
+        <br />
+        <h1 style="padding-left:900px;">{{Action}} Order</h1>
+        <form name="CreateTask" ng-model="AddTaskForm">
+                <script type="text/javascript">
+                    function ValidateForm(frm) {
+                        if (frm.First_Name.value == "") { alert('First name is required.'); frm.First_Name.focus(); return false; }
+                        if (frm.Last_Name.value == "") { alert('Last name is required.'); frm.Last_Name.focus(); return false; }
+                        if (frm.Email_Address.value == "") { alert('Email address is required.'); frm.Email_Address.focus(); return false; }
+                        if (frm.Email_Address.value.indexOf("@") < 1 || frm.Email_Address.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.Email_Address.focus(); return false; }
+                        if (frm.Position.value == "") { alert('Position is required.'); frm.Position.focus(); return false; }
+                        if (frm.Phone.value == "") { alert('Phone is required.'); frm.Phone.focus(); return false; }
+                        return true;
+                    }
+                </script>
+            <table id="dataTable" border="0" cellpadding="5" cellspacing="0">
+                <tr>
+                    <td>
+                        <label for="First_Name"><b>First name *</b></label><br />
+                        <input name="First_Name" type="text" maxlength="50" style="width: 260px; background-color: rgb(45, 119, 61);" ng-model="AddTaskForm.FirstName" />
+                    </td>
+                    <td>
+                        <label for="Last_Name"><b>Last name *</b></label><br />
+                        <input name="Last_Name" type="text" maxlength="50" style="width: 260px; background-color: rgb(45, 119, 61);" ng-model="AddTaskForm.LastName"/>
+                    </td>
+                    <td>
+                        <label for="Email_Address"><b>Email *</b></label><br />
+                        <input name="Email_Address" type="text" maxlength="100" style="width: 330px; background-color: rgb(45, 119, 61);" ng-model="AddTaskForm.EmailId"/>
+                    </td>
+                    <td colspan="6">
+                        <label for="Order Id"><b>Order Id </b></label><br />
+                        <label style="width: 330px; font-size:x-large;" ng-model="AddTaskForm.OrderId" > <b>{{AddTaskForm.OrderId}}</b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Phone"><b>Phone *</b></label><br />
+                        <input name="Phone" type="text" maxlength="50" style="width: 260px" ng-model="AddTaskForm.Phone" />
+                    </td>
+
+                    <td>
+                        <label for="Position"><b>Delivery Date</b></label><br />
+                        <input name="Position" type="text" maxlength="100" style="width: 260px" ng-model="AddTaskForm.DeliveryDate" />
+                    </td>
+
+                    <td>
+                        <label for="Portfolio"><b>Sector Number</b></label><br />
+                        <input name="Portfolio" type="text" maxlength="50" value="Sector {{AddTaskForm.SectorNo}} " style="width: 260px"/>
+                    </td>
+
+                    <td colspan="6">
+                        <label for="Portfolio"><b>Address</b></label><br />
+                        <input name="Portfolio" type="text" maxlength="255" value="" style="width: 535px" ng-model="AddTaskForm.Address" />
+                    </td>
+                </tr>
+                <tr ng-repeat="item in items">
+                    <td>
+                        <input type="button" value="Add Item" onclick="addRow('dataTable')" />
+                        <br /><br />
+                        <input type="button" value="Remove Item" class="btn btn-primary" onclick="deleteRow(this, 'dataTable')" />
+                    </td>
+                    <td ng-repeat="itemDetail in item.Item_Details">
+                        <label for="Position"><b>Item Description</b></label><br />
+                        <input type="text" name="chk" style="width: 260px" ng-model="itemDetail.Item_Name" />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Item Unique Code</b></label><br />
+                        <input type="text" name="chk" style="width: 260px" ng-model="item.Item_DCode" />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Rent Amount</b></label><br />
+                        <input type="text" name="chk" style="width: 100px" ng-model="item.RentAmt" />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Quantity</b></label><br />
+                        <input type="text" name="chk" style="width: 60px" ng-model="item.Quantity" />
+                        <label hidden value=""
+                    </td>
+                    <td>
+                        <label for="Position"><b>Total Rent</b></label><br />
+                        <input type="text" name="chk" style="width: 100px" value="{{item.RentAmt*item.Quantity}}" />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Security Deposit</b></label><br />
+                        <input type="text" name="txt" style="width: 100px" value="{{item.RentAmt*item.Quantity*2}}" />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Min. Tenure</b></label><br />
+                        <input type="text" name="chk" style="width: 60px" ng-model="item.Tenure" />
+                    </td>
+                    <td colspan="6">
+                        <label for="Position"><b>Dealer Name</b></label><br />
+                        <select name="country" style="width: 260px; background-color: rgb(45, 119, 61);" ng-model="item.DealerName">
+                            <option value="ARS">ARS</option>
+                            <option value="V4M">V4M</option>
+                            <option value="SE">Sharma Electric</option>
+                            <option value="GD">Guru Dronacharya</option>
+                            <option value="FIR">All On Rent</option>
+                        </select>
+                    </td>
+                </tr>
+                
+            </table>
+                <!--<tr>
+                    <td colspan="6" style="text-align: center;">
+                        <input name="skip_submit" type="submit" value="Add Order" onclick="ValidateForm" />
+                    </td>
+                </tr>-->
+            <table id="dataTable" border="0" cellpadding="5" cellspacing="0">
+                
+                <tr>
+                    <td colspan="3"></td>
+                    <td>
+                        <label for="Position"><b>Order Details :-</b></label><br />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Total Items : {{TotalQuantity}}</b></label><br />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Total Rent : {{TotalRent}}</b></label><br />
+                    </td>
+                    <td>
+                        <label for="Position"><b>Security Deposit : {{TotalSecurityDeposit}}</b></label><br />
+                    </td>
+                    
+                </tr>
+
+            </table>
+            <center><input name="skip_submit" type="submit" value="{{Action}} Order" onclick="ValidateForm('CreateTask')" /></center>
+        </form>
+    </div>

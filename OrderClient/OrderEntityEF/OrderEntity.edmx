@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OrderListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item_DCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RentAmt" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="TotalRent" Type="int" Nullable="false" />
+          <Property Name="SecurityDeposit" Type="int" Nullable="false" />
+          <Property Name="Tenure" Type="int" Nullable="false" />
+          <Property Name="DealerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item_Catalog">
+          <Key>
+            <PropertyRef Name="Item_DCode" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Item_DCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item_Desc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InStock" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item_Unique_Desc">
+          <Key>
+            <PropertyRef Name="Item_UCode" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Item_UCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item_DCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cost_Recovered" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RentedOut" Type="int" Nullable="false" />
+          <Property Name="Buy_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNo" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="RentAmt" Type="int" Nullable="false" />
+          <Property Name="SecurityDeposit" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="date" Nullable="false" />
+          <Property Name="LastName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SectorNumber" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="EmailId" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Item__Item_DCode__60A75C0F">
+          <End Role="Item_Catalog" Type="Self.Item_Catalog" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item_Catalog">
+              <PropertyRef Name="Item_DCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Item_DCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_productSales_pid">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OrderListModelStoreContainer">
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item_Catalog" EntityType="Self.Item_Catalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item_Unique_Desc" EntityType="Self.Item_Unique_Desc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Category" EntityType="Self.Product_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Item__Item_DCode__60A75C0F" Association="Self.FK__Item__Item_DCode__60A75C0F">
+            <End Role="Item_Catalog" EntitySet="Item_Catalog" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="fk_productSales_pid" Association="Self.fk_productSales_pid">
+            <End Role="User" EntitySet="User" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OrderListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OrderListEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="OrderListModel.User" />
+          <EntitySet Name="Item_Catalog" EntityType="OrderListModel.Item_Catalog" />
+          <EntitySet Name="Item_Unique_Desc" EntityType="OrderListModel.Item_Unique_Desc" />
+          <EntitySet Name="Product_Category" EntityType="OrderListModel.Product_Category" />
+          <AssociationSet Name="FK__Item_Cata__Categ__5165187F" Association="OrderListModel.FK__Item_Cata__Categ__5165187F">
+            <End Role="Product_Category" EntitySet="Product_Category" />
+            <End Role="Item_Catalog" EntitySet="Item_Catalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item_Uniq__Item___52593CB8" Association="OrderListModel.FK__Item_Uniq__Item___52593CB8">
+            <End Role="Item_Catalog" EntitySet="Item_Catalog" />
+            <End Role="Item_Unique_Desc" EntitySet="Item_Unique_Desc" />
+          </AssociationSet>
+          <EntitySet Name="Items" EntityType="OrderListModel.Item" />
+          <AssociationSet Name="FK__Item__Item_DCode__60A75C0F" Association="OrderListModel.FK__Item__Item_DCode__60A75C0F">
+            <End Role="Item_Catalog" EntitySet="Item_Catalog" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="fk_productSales_pid" Association="OrderListModel.fk_productSales_pid">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="ContactNo" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="RentAmt" Type="Int32" Nullable="false" />
+          <Property Name="SecurityDeposit" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SectorNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Items" Relationship="OrderListModel.fk_productSales_pid" FromRole="User" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="Item_Catalog">
+          <Key>
+            <PropertyRef Name="Item_DCode" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item_DCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InStock" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product_Category" Relationship="OrderListModel.FK__Item_Cata__Categ__5165187F" FromRole="Item_Catalog" ToRole="Product_Category" />
+          <NavigationProperty Name="Item_Unique_Desc" Relationship="OrderListModel.FK__Item_Uniq__Item___52593CB8" FromRole="Item_Catalog" ToRole="Item_Unique_Desc" />
+          <Property Name="Item_Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Items" Relationship="OrderListModel.FK__Item__Item_DCode__60A75C0F" FromRole="Item_Catalog" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="Item_Unique_Desc">
+          <Key>
+            <PropertyRef Name="Item_UCode" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item_UCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Item_DCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Cost_Recovered" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RentedOut" Type="Int32" Nullable="false" />
+          <Property Name="Buy_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Item_Catalog" Relationship="OrderListModel.FK__Item_Uniq__Item___52593CB8" FromRole="Item_Unique_Desc" ToRole="Item_Catalog" />
+        </EntityType>
+        <EntityType Name="Product_Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item_Catalog" Relationship="OrderListModel.FK__Item_Cata__Categ__5165187F" FromRole="Product_Category" ToRole="Item_Catalog" />
+        </EntityType>
+        <Association Name="FK__Item_Cata__Categ__5165187F">
+          <End Type="OrderListModel.Product_Category" Role="Product_Category" Multiplicity="1" />
+          <End Type="OrderListModel.Item_Catalog" Role="Item_Catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Item_Catalog">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item_Uniq__Item___52593CB8">
+          <End Type="OrderListModel.Item_Catalog" Role="Item_Catalog" Multiplicity="1" />
+          <End Type="OrderListModel.Item_Unique_Desc" Role="Item_Unique_Desc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item_Catalog">
+              <PropertyRef Name="Item_DCode" />
+            </Principal>
+            <Dependent Role="Item_Unique_Desc">
+              <PropertyRef Name="Item_DCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Item_DCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RentAmt" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="TotalRent" Type="Int32" Nullable="false" />
+          <Property Name="SecurityDeposit" Type="Int32" Nullable="false" />
+          <Property Name="Tenure" Type="Int32" Nullable="false" />
+          <Property Name="DealerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item_Catalog" Relationship="OrderListModel.FK__Item__Item_DCode__60A75C0F" FromRole="Item" ToRole="Item_Catalog" />
+          <NavigationProperty Name="User" Relationship="OrderListModel.fk_productSales_pid" FromRole="Item" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__Item__Item_DCode__60A75C0F">
+          <End Type="OrderListModel.Item_Catalog" Role="Item_Catalog" Multiplicity="1" />
+          <End Type="OrderListModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item_Catalog">
+              <PropertyRef Name="Item_DCode" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="Item_DCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_productSales_pid">
+          <End Type="OrderListModel.User" Role="User" Multiplicity="1" />
+          <End Type="OrderListModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OrderListModelStoreContainer" CdmEntityContainer="OrderListEntities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="OrderListModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="SectorNumber" ColumnName="SectorNumber" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="SecurityDeposit" ColumnName="SecurityDeposit" />
+                <ScalarProperty Name="RentAmt" ColumnName="RentAmt" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Item_Catalog">
+            <EntityTypeMapping TypeName="OrderListModel.Item_Catalog">
+              <MappingFragment StoreEntitySet="Item_Catalog">
+                <ScalarProperty Name="Item_Desc" ColumnName="Item_Desc" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="InStock" ColumnName="InStock" />
+                <ScalarProperty Name="Item_Name" ColumnName="Item_Name" />
+                <ScalarProperty Name="Item_DCode" ColumnName="Item_DCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Item_Unique_Desc">
+            <EntityTypeMapping TypeName="OrderListModel.Item_Unique_Desc">
+              <MappingFragment StoreEntitySet="Item_Unique_Desc">
+                <ScalarProperty Name="Buy_date" ColumnName="Buy_date" />
+                <ScalarProperty Name="RentedOut" ColumnName="RentedOut" />
+                <ScalarProperty Name="Cost_Recovered" ColumnName="Cost_Recovered" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Item_DCode" ColumnName="Item_DCode" />
+                <ScalarProperty Name="Item_UCode" ColumnName="Item_UCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Category">
+            <EntityTypeMapping TypeName="OrderListModel.Product_Category">
+              <MappingFragment StoreEntitySet="Product_Category">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="OrderListModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="DealerName" ColumnName="DealerName" />
+                <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+                <ScalarProperty Name="SecurityDeposit" ColumnName="SecurityDeposit" />
+                <ScalarProperty Name="TotalRent" ColumnName="TotalRent" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="RentAmt" ColumnName="RentAmt" />
+                <ScalarProperty Name="Item_DCode" ColumnName="Item_DCode" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
