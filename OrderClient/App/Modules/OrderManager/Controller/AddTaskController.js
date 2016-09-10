@@ -65,7 +65,7 @@
                                 TaskOperations.GetItems($scope.order).then(GetAllItems, onError);
                                 $scope.orderDetail = response.data;
                                 $scope.orderDetail.OrderDate = new Date(parseInt($scope.orderDetail.OrderDate.substr(6)));
-                                $scope.orderDetail.OrderDate = $scope.orderDetail.OrderDate.format("dd/mm/yyyy");
+                                //$scope.orderDetail.OrderDate = $scope.orderDetail.OrderDate.format("dd/mm/yyyy");
                                 $scope.AddTaskForm = {
                                     FirstName: $scope.orderDetail.Name,
                                     LastName: $scope.orderDetail.LastName,
