@@ -4,30 +4,13 @@
 
     var OrderController = function ($scope, TaskOperations, $location) {
 
-        $scope.message = "Angular POC";
-       
+        $scope.message = "Order Client";
+
 
         var GetAllTasks = function (response) {
             $scope.Orders = JSON.parse(response.data);
         };
 
-        //function GetAllBooks() {
-        //    debugger;
-        //    var getBookData = crudAJService.getBooks();
-        //    getBookData.then(function (book) {
-        //        $scope.books = book.data;
-        //    }, function () {
-        //        alert('Error in getting book records');
-        //    });
-        //}
-
-        
-        //$scope.myData = [{ userid: 1, username: "suresh dasari", branch: "B.tech" },
-        //    { userid: 2, username: "Rohini Dasari", branch: "Msc" },
-        //    { userid: 3, username: "Praveen Aalvala", branch: "B.Tech" },
-        //    { userid: 4, username: "Madhav Sai", branch: "MBA" },
-        //    { userid: 5, username: "Sateesh Alavala", branch: "MD" },
-        //    { userid: 6, username: "Mahendra Dasari", branch: "CA" }];
         $scope.gridOptions = {
             enableSorting: true,
             columnDefs: [
@@ -73,43 +56,19 @@
         }
 
         $scope.deleteTask = function (TaskInfo) {
-            //$scope.Action = "Delete";
-
             TaskOperations.deleteTask(TaskInfo).then(GetAllTasks, onError);
         }
-
-        TaskOperations.showAllTask().then(GetAllTasks, onError);
-
 
         $scope.search = function (GeneratedBy) {
             TaskOperations.searchTask(GeneratedBy)
                            .then(GetTasks, onError);
         };
 
-        //    $scope.myData = [
-        //{
-        //    "firstName": "Cox",
-        //    "lastName": "Carney",
-        //    "company": "Enormo",
-        //    "employed": true
-        //},
-        //{
-        //    "firstName": "Lorraine",
-        //    "lastName": "Wise",
-        //    "company": "Comveyer",
-        //    "employed": false
-        //},
-        //{
-        //    "firstName": "Nancy",
-        //    "lastName": "Waters",
-        //    "company": "Fuelton",
-        //    "employed": false
-        //}
-        //    ];
+        $scope.GetDuePaymentOrders = function () {
+            TaskOperations.GetDuePaymentOrders().then(GetAllTasks, onError);
+        }
 
-        // Another way to call parameterized function in web api. 
-        // $http.get("http://localhost/AngularPOCServices/api/Task?taskCreator=" + GeneratedBy)
-        //         .then(GetTasks, onError);
+        TaskOperations.showAllTask().then(GetAllTasks, onError);
     };
 
     module.controller("OrderController", OrderController);

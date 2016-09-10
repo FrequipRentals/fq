@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using OrderClient.Models;
 using OrderClient.OrderEntityEF;
 using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace OrderClient.Controllers
 {
@@ -171,93 +172,43 @@ namespace OrderClient.Controllers
                 context.SaveChanges();
             }
         }
+
+
+        public JsonResult GetDuePaymentOrders()
+        {
+            var orderList = new List<OrderInfo>();
+            try
+            {
+                using (var context = new OrderListEntities())
+                {
+                    var result = (from it in context.Items
+                                  join ur in context.Users on it.OrderId equals ur.OrderId
+                                  where DbFunctions.AddMonths(ur.OrderDate, it.Tenure - 1) < DateTime.Now
+                                  && DbFunctions.DiffDays(DbFunctions.AddMonths(ur.OrderDate, it.Tenure), DateTime.Now) < 30
+                                  select new { it.Tenure, ur.Name, ur.RentAmt, ur.SecurityDeposit, ur.OrderDate, ur.ContactNo, ur.Address, ur.OrderId }
+
+                                      ).ToList();
+
+                    foreach (var order in result)
+                    {
+                        OrderInfo orderInfo = new OrderInfo();
+                        orderInfo.Name = order.Name;
+                        orderInfo.RentAmt = order.RentAmt;
+                        orderInfo.SecurityDeposit = order.SecurityDeposit;
+                        orderInfo.OrderDate = order.OrderDate;
+                        orderInfo.ContactNo = order.ContactNo;
+                        orderInfo.Address = order.Address;
+                        orderInfo.OrderId = order.OrderId;
+
+                        orderList.Add(orderInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return Json(JsonConvert.SerializeObject(orderList), JsonRequestBehavior.AllowGet);
+        }
     }
 }
-
-
-
-// --------------------------------Unused Code------------------------------------------------------------------
-
-
-
-
-//private static List<TaskModel> TaskList = new List<TaskModel>();
-
-//// GET: Order
-//public ActionResult Index()
-//{
-//    return View();
-//}
-
-//// GET: Order/Details/5
-//public ActionResult Details(int id)
-//{
-//    return View();
-//}
-
-//// GET: Order/Create
-//public ActionResult Create()
-//{
-//    return View();
-//}
-
-//// POST: Order/Create
-//[HttpPost]
-//public ActionResult Create(FormCollection collection)
-//{
-//    try
-//    {
-//        // TODO: Add insert logic here
-
-//        return RedirectToAction("Index");
-//    }
-//    catch
-//    {
-//        return View();
-//    }
-//}
-
-//// GET: Order/Edit/5
-//public ActionResult Edit(int id)
-//{
-//    return View();
-//}
-
-//// POST: Order/Edit/5
-//[HttpPost]
-//public ActionResult Edit(int id, FormCollection collection)
-//{
-//    try
-//    {
-//        // TODO: Add update logic here
-
-//        return RedirectToAction("Index");
-//    }
-//    catch
-//    {
-//        return View();
-//    }
-//}
-
-//// GET: Order/Delete/5
-//public ActionResult Delete(int id)
-//{
-//    return View();
-//}
-
-//// POST: Order/Delete/5
-//[HttpPost]
-//public ActionResult Delete(int id, FormCollection collection)
-//{
-//    try
-//    {
-//        // TODO: Add delete logic here
-
-//        return RedirectToAction("Index");
-//    }
-//    catch
-//    {
-//        return View();
-//    }
-//}
-

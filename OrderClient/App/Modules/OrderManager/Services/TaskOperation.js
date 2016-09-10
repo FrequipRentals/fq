@@ -14,51 +14,18 @@
         };
 
         var showAllTask = function () {
-           return $http.get('Order/GetAllOrders');
+            return $http.get('Order/GetAllOrders');
         };
 
-        //var showAllTask = function () {
-        //    $http({
-        //        url: "Order/GetAllOrders",
-        //        method: 'JSONP'
-        //    }).then(function (response) {
-        //        return response;
-        //    });
-        //};
-
-        //var showAllTask = function () {
-        //    var url = "http://localhost/AngularPOCServices/api/Task";
-        //    $http({
-        //        method: 'JSONP',
-        //        url: url
-        //    }).
-        //success(function (status) {
-        //    //your code when success
-        //}).
-        //error(function (status) {
-        //    //your code when fails
-        //});
+        var GetDuePaymentOrders = function () {
+            return $http.get('Order/GetDuePaymentOrders');
+        };
 
 
-        //    //return $http.get('http://localhost/AngularPOCServices/api/Test');
-        //   //return $http.get('http://localhost/AngularPOCServices/api/Task');
-        //};
         var AddOrderDetail = function (OrderInfo) {
             return $http.post("/Order/AddOrderDetail", OrderInfo);
         };
 
-        //var editTask = function (TaskInfo) {
-        //    $http({
-        //        url: "http://localhost/AngularPOCServices/api/Task/UpdateTask",
-        //        method: 'POST',
-        //        data: { task: JSON.stringify(TaskInfo) }
-        //    }).success(function (response) {
-        //        $scope.value = response.d;
-        //    })
-        //   .error(function (error) {
-        //       alert(error);
-        //   });
-        //}
 
         var editTask = function (TaskInfo) {
             return $http.post("http://localhost/AngularPOCServices/api/Task/UpdateTask", TaskInfo);
@@ -85,20 +52,14 @@
             alert("hello error");
         };
 
-        //var getTasksList = function () {
-        //    var data = showAllTask();
-        //    data.success(function (response) { response }).
-        //    error(function () { onError() });
-
-        //};
-
         return {
             searchTask: searchTask,
             showAllTask: showAllTask,
             AddOrderDetail: AddOrderDetail,
             GetOrderDetail: GetOrderDetail,
             editTask: editTask,
-            GetItems: GetItems
+            GetItems: GetItems,
+            GetDuePaymentOrders: GetDuePaymentOrders
         };
     };
 
